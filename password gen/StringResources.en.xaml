@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:system="clr-namespace:System;assembly=netstandard">
+
+    <system:String x:Key="StrTab1">Password Generator</system:String>
+    <system:String x:Key="StrTab2">Password Manager</system:String>
+    <system:String x:Key="StrRadioRanChars">Use random characters</system:String>
+    <system:String x:Key="StrRadioInWd">Include words</system:String>
+    <system:String x:Key="StrTxtBlockWd">Words to include</system:String>
+    <system:String x:Key="StrTxtBlockInfoWd">Up to 5 words, use commas "," to separate</system:String>
+    <system:String x:Key="StrCheckCaps">Use capital letters</system:String>
+    <system:String x:Key="StrCheckNums">Use numbers</system:String>
+    <system:String x:Key="StrCheckSpecials">Use special characters</system:String>
+    <system:String x:Key="StrCheckScram">Scramble words</system:String>
+    <system:String x:Key="StrTextMinLength">Minimum &#10; length</system:String>
+    <system:String x:Key="StrTextMaxLength">Maximum &#10; length</system:String>
+    <system:String x:Key="StrTextYourPass">Your password :</system:String>
+    <system:String x:Key="StrBtnGenerate">Generate</system:String>
+    <system:String x:Key="StrTextCopied">Copied!</system:String>
+    <system:String x:Key="StrTextErrorMinMax">Minimum length shouldn't be bigger than maximum length</system:String>
+    <system:String x:Key="StrTextErrorMinLow">Minimum length is too small to fit all options chosen</system:String>
+    <system:String x:Key="StrTextErrorNoWd">No words to include</system:String>
+    <system:String x:Key="StrTextErrorTooManyWd">You can only include up to 5 words</system:String>
+    <system:String x:Key="StrTextErrorLenTooHigh">Length cannot be greater than 32 characters</system:String>
+    <system:String x:Key="StrTextErrorLenTooLow">Length cannot be smaller than 7 characters</system:String>
+    <system:String x:Key="StrTextErrorSpace">Cannot use spaces in included words</system:String>
+
+
+</ResourceDictionary>

@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=netstandard">
+
+    <system:String x:Key="StrTab1">Générer un mot de passe</system:String>
+    <system:String x:Key="StrTab2">Gérer les mots de passes</system:String>
+    <system:String x:Key="StrRadioRanChars">Utiliser des caratères aléatoires</system:String>
+    <system:String x:Key="StrRadioInWd">Inclure des mots</system:String>
+    <system:String x:Key="StrTxtBlockWd">Mots à inclure</system:String>
+    <system:String x:Key="StrTxtBlockInfoWd">5 mots maximum, utiliser une virgule "," pour séparer les mots</system:String>
+    <system:String x:Key="StrCheckCaps">Utiliser des majuscules</system:String>
+    <system:String x:Key="StrCheckNums">Utiliser des chiffres</system:String>
+    <system:String x:Key="StrCheckSpecials">Utiliser des caractères spéciaux</system:String>
+    <system:String x:Key="StrCheckScram">Melanger les mots</system:String>
+    <system:String x:Key="StrTextMinLength">Longueur &#10; minimale</system:String>
+    <system:String x:Key="StrTextMaxLength">Longueur &#10; maximale</system:String>
+    <system:String x:Key="StrTextYourPass">Votre mot de passe :</system:String>
+    <system:String x:Key="StrBtnGenerate">Générer</system:String>
+    <system:String x:Key="StrTextCopied">Copié !</system:String>
+    <system:String x:Key="StrTextErrorMinMax">Longueur minimale ne peut pas être supérieure à longueur maximale</system:String>
+    <system:String x:Key="StrTextErrorMinLow">Longueur minimale trop faible pour les options choisies</system:String>
+    <system:String x:Key="StrTextErrorNoWd">Pas de mots à inclure</system:String>
+    <system:String x:Key="StrTextErrorTooManyWd">Le maximum de mots à inclure est de 5</system:String>
+    <system:String x:Key="StrTextErrorLenTooHigh">La longueur ne peut pas dépasser 32 caractères</system:String>
+    <system:String x:Key="StrTextErrorLenTooLow">La longueur ne peut pas être inférieure à 7 caractères</system:String>
+    <system:String x:Key="StrTextErrorSpace">Les mots inclus ne peuvent pas contenir des espaces</system:String>
+
+
+</ResourceDictionary>

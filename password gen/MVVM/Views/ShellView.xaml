@@ -1,0 +1,496 @@
+﻿<Window x:Name="ShellForm" x:Class="password_gen.MVVM.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:password_gen.MVVM.Views"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Password Manager" Height="650" Width="475" Icon="/MVVM/Views/key-icon-26605-Windows.ico" 
+        Background="#151515" Foreground="White" ResizeMode="CanMinimize">
+
+    <Window.Resources>
+        <!-- Base stuff dont touch -->
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="TabItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#F0F0F0" Offset="0.0"/>
+            <GradientStop Color="#E5E5E5" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="TabItem.Static.Border" Color="#ACACAC"/>
+        <LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#ECF4FC" Offset="0.0"/>
+            <GradientStop Color="#DCECFC" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="TabItem.MouseOver.Border" Color="#7EB4EA"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC"/>
+        <SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0"/>
+        <SolidColorBrush x:Key="TabItem.Disabled.Border" Color="#D9D9D9"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Background1" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Border1" Color="#ACACAC"/>
+
+        <!-- Satoshi font -->
+        <Style x:Key="TeamSato">
+            <Setter Property="TextElement.FontFamily"
+                    Value="\Fonts\Satoshi_Complete"/>
+        </Style>
+
+        <!-- ShellTabs Strip style -->
+        <Style x:Key="ShellTabs" TargetType="{x:Type TabItem}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#3B3B3B"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Margin" Value="-2,-2,0,-2"/>
+            <Setter Property="Padding" Value="10,0,10,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="FontFamily" Value="Satoshi"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                            <Border x:Name="mainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,0" Margin="0">
+                                <Border x:Name="innerBorder" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0,0,0,0" Margin="0" Opacity="0"/>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="#676767"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="#676767"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="#676767"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="#676767"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="0,2,0,2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="0"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="0,2,0,2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="0"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="0,2,0,2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="#3B3B3B"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="0"/>
+                                <Setter Property="Margin" Value="-2,-2,0,0"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="0"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,0,0,0"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="Black"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ShellTabs Control style -->
+        <Style x:Key="ShellTabs_Control" TargetType="{x:Type TabControl}">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="ColumnDefinition0"/>
+                                <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                                <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TabPanel x:Name="headerPanel" Background="#242424" Grid.Column="0" IsItemsHost="true" Margin="0,0,0,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" Height="27"/>
+                            <Border x:Name="contentPanel" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                                <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="TabStripPlacement" Value="Bottom">
+                                <Setter Property="Grid.Row" TargetName="headerPanel" Value="1"/>
+                                <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
+                                <Setter Property="Margin" TargetName="headerPanel" Value="2,0,2,2"/>
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Left">
+                                <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                                <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                                <Setter Property="Grid.Column" TargetName="headerPanel" Value="0"/>
+                                <Setter Property="Grid.Column" TargetName="contentPanel" Value="1"/>
+                                <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
+                                <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
+                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                                <Setter Property="Margin" TargetName="headerPanel" Value="2,2,0,2"/>
+                            </Trigger>
+                            <Trigger Property="TabStripPlacement" Value="Right">
+                                <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                                <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                                <Setter Property="Grid.Column" TargetName="headerPanel" Value="1"/>
+                                <Setter Property="Grid.Column" TargetName="contentPanel" Value="0"/>
+                                <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
+                                <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
+                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                                <Setter Property="Margin" TargetName="headerPanel" Value="0,2,2,2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <!-- Row 0 -->
+        <TabControl Style="{DynamicResource ShellTabs_Control}" Grid.Row="0" Grid.Column="0">
+            <TabItem Style="{DynamicResource ShellTabs}" Header="{DynamicResource StrTab1}" Margin="-2,-2,5,-7" 
+                     MinHeight="20" MinWidth="130">
+
+
+                <Label>
+                    <Grid Height="600" Width="460">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Row 1 -->
+                        <ComboBox Name = "cmbLang" SelectedIndex="0" 
+                                  Grid.Row="1" Grid.Column="5" Margin="100,10,10,0" HorizontalAlignment="Right"
+                                  MinHeight="30" MinWidth="30" Text="Language"
+                                  SelectionChanged="cmbLang_SelectionChanged">
+                            <ComboBoxItem Content="FR"/>
+                            <ComboBoxItem Content="EN"/>
+                        </ComboBox>
+
+                        <!-- Row 2 -->
+                        <RadioButton x:Name="randChars" GroupName="contentChoice" Content="{DynamicResource StrRadioRanChars}" 
+                                     Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Margin="0,30,0,0" 
+                                     FontFamily="Satoshi Medium" Foreground="White" FontWeight="Normal" FontSize="14"
+                                     Checked="randChars_Checked"/>
+                        <!-- Row 3 -->
+                        <RadioButton x:Name="includeWords" GroupName="contentChoice" Content="{DynamicResource StrRadioInWd}" 
+                                     Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" Margin="0,15,0,0" 
+                                     FontFamily="Satoshi Medium" Foreground="White" FontWeight="Normal" FontSize="14"
+                                     Checked="includeWords_Checked"/>
+                        <!-- Row 4 -->
+                        <TextBlock x:Name="txtWdIn" Text="{DynamicResource StrTxtBlockWd}"
+                                   Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="5" Margin="1,10,0,0"
+                                   FontFamily="Satoshi Medium" Foreground="White" FontSize="14"
+                                   Visibility="Visible"/>
+                        <TextBlock x:Name="txtInfoWdIn" Text="{DynamicResource StrTxtBlockInfoWd}"
+                                   Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="5" Margin="0,15,0,0"
+                                   FontFamily="Satoshi Medium" Foreground="LightGray" FontSize="10"
+                                   Visibility="Visible"/>
+                        <!-- Row 5 -->
+                        <TextBox x:Name="boxWdIn" TextWrapping="Wrap" AcceptsReturn="True" 
+                                 Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="5" Width="400" Height="30"
+                                 FontSize="14" MaxLength="120" Margin="0,2,40,0"
+                                 Visibility="Visible"/>
+                        <!-- Row 6 -->
+                        <CheckBox x:Name="checkCaps" Content="{DynamicResource StrCheckCaps}"
+                                  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5" Margin="-2,25,0,0"
+                                  Foreground="White" FontSize="7" FontWeight="Normal" FontFamily="Satoshi Medium">
+                            <CheckBox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </CheckBox.RenderTransform>
+                        </CheckBox>
+                        <!-- Row 7 -->
+                        <CheckBox x:Name="checkNums" Content="{DynamicResource StrCheckNums}"
+                                  Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="5" Margin="-2,20,0,0"
+                                  Foreground="White" FontSize="7" FontWeight="Normal" FontFamily="Satoshi Medium">
+                            <CheckBox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </CheckBox.RenderTransform>
+                        </CheckBox>
+                        <!-- Row 8 -->
+                        <CheckBox x:Name="checkSpecials" Content="{DynamicResource StrCheckSpecials}"
+                                  Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="5" Margin="-2,20,0,0"
+                                  Foreground="White" FontSize="7" FontWeight="Normal" FontFamily="Satoshi Medium">
+                            <CheckBox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </CheckBox.RenderTransform>
+                        </CheckBox>
+                        <!-- Row 9 -->
+                        <CheckBox x:Name="checkScram" Content="{DynamicResource StrCheckScram}"
+                                  Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" Margin="-2,20,0,0"
+                                  Foreground="White" FontSize="7" FontWeight="Normal" FontFamily="Satoshi Medium"
+                                  IsEnabled="False">
+                            <CheckBox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </CheckBox.RenderTransform>
+                        </CheckBox>
+                        <!-- Row 10 -->
+                        <TextBlock x:Name="textMinLength" Text="{DynamicResource StrTextMinLength}"
+                                   Grid.Row="10" Grid.Column="1" Margin="0,45,0,0"
+                                   Foreground="White" FontSize="16" FontWeight="Normal" FontFamily="Satoshi Medium" 
+                                   TextWrapping="Wrap" Width="80"/>
+                        <xctk:DecimalUpDown x:Name="updownMinLength"
+                                            Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,45,0,0"
+                                            Width="40" Height="30" 
+                                            FontSize="14" FontFamily="Satoshi"
+                                            Value ="7" Minimum="7" Maximum="32"/>
+                        <TextBlock x:Name="textMaxLength" Text="{DynamicResource StrTextMaxLength}"
+                                   Grid.Row="10" Grid.Column="3" Margin="30,45,0,0"
+                                   Foreground="White" FontSize="16" FontWeight="Normal" FontFamily="Satoshi Medium" 
+                                   TextWrapping="Wrap" Width="80" HorizontalAlignment="Left"/>
+                        <xctk:DecimalUpDown x:Name="updownMaxLength"
+                                            Grid.Row="10" Grid.Column="4" Grid.ColumnSpan="1" Margin="5,40,0,0"
+                                            Width="40" Height="30" 
+                                            FontSize="14" FontFamily="Satoshi"
+                                            Value ="12" Minimum="7" Maximum="32"/>
+                        <!-- Row 11 -->
+                        <TextBlock x:Name="textYourPass" Text="{DynamicResource StrTextYourPass}"
+                                   Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5" Margin="5,25,0,0"
+                                   Foreground="White" FontSize="16" FontWeight="Normal" FontFamily="Satoshi Medium"/>
+                        <!-- Row 12 -->
+                        <TextBox x:Name="boxPass" TextWrapping="NoWrap" IsReadOnly="True"
+                                 Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="5" Width="400" Height="30"
+                                 FontSize="14" MaxLength="120" Margin="5,5,40,0" Padding="5,4,0,0"
+                                 Visibility="Visible"/>
+                        <!-- Row 13 -->
+                        <Button x:Name="btnGenerate" Content="{DynamicResource StrBtnGenerate}"
+                                Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="3" Margin="5,10,0,0" HorizontalAlignment="Left"
+                                Width="200" Height="25" HorizontalContentAlignment="Left" Padding="4,0"
+                                Foreground="Black" FontSize="16" FontWeight="Normal" FontFamily="Satoshi Medium"
+                                Click="generate_Pressed"/>
+                        <Button x:Name="btnCopy" Content="📋"
+                                Grid.Row="13" Grid.Column="4" Grid.ColumnSpan="1" Margin="-30,10,0,0" HorizontalAlignment="Left"
+                                Width="35" Height="25" HorizontalContentAlignment="Left" Padding="8,0"
+                                Foreground="Black" FontSize="14" FontWeight="Normal" FontFamily="Satoshi Medium"
+                                Click="copyBtn_Pressed"/>
+                        <TextBlock x:Name="textCopied" Text="{DynamicResource StrTextCopied}"
+                                   Grid.Row="13" Grid.Column="5" HorizontalAlignment="Left" Margin="-35,12,0,0"
+                                   Foreground="White" FontSize="14" FontWeight="Normal" FontFamily="Satoshi Medium"
+                                   Visibility="Visible"/>
+                        <!-- Row 14 -->
+                        <TextBlock x:Name="textError" Text="hi"
+                                   Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Left" Margin="5,10,0,0"
+                                   Foreground="#D34E4E" FontSize="11" FontWeight="Normal" FontFamily="Satoshi Medium"
+                                   Visibility="Hidden"/>
+
+                    </Grid>
+                </Label>
+            </TabItem>
+            <TabItem Style="{DynamicResource ShellTabs}" Header="{DynamicResource StrTab2}" Margin="-6,-2,-4,-7" 
+                     MinHeight="20" MinWidth="130">
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
