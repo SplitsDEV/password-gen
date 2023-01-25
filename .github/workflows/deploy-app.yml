@@ -6,7 +6,7 @@ on:
       - "password-gen/v*"
 
 env:
-  PROJECT_PATH: password gen/password gen.csproj
+  PROJECT_PATH: "password gen/password gen.csproj"
 
 jobs:
   deploy:
